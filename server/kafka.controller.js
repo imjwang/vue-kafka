@@ -1,27 +1,8 @@
-const express = require('express')
-const cors = require('cors')
 const ip = require('ip')
 
 const { Kafka, logLevel } = require('kafkajs')
 
-const port = 3002
 const host = process.env.HOST_IP || ip.address()
-
-/*
-const app = express()
-
-// Use JSON
-app.use(express.json())
-// Allow CORs
-app.use(cors())
-
-app.get('/', (req, res) => {
-    res.send('Hello Jeff!')
-})
-
-app.listen(port, () => {
-    console.log(`example app listening on port ${port}`)
-})*/
 
 const kafka = new Kafka({
     logLevel: logLevel.INFO,
@@ -73,3 +54,7 @@ signalTraps.forEach(type => {
         }
     })
 })
+
+module.exports = {
+
+}
