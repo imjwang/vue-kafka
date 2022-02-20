@@ -18,8 +18,8 @@ wss.on('connection', (ws) => {
 
     ws.on('message', (data) => {
         console.log(`received ${data}`)
-        //ws.send(message.value)
-        ws.send('test')
+        //ws.send(data.value)
+        ws.send(JSON.stringify(data))
     })
     ws.send('test message sending to client')
 })
