@@ -18,6 +18,8 @@ wss.on('connection', (ws) => {
 
     ws.on('message', (data) => {
         console.log(`received ${data}`)
+        //ws.send(message.value)
+        ws.send('test')
     })
     ws.send('test message sending to client')
 })
@@ -59,7 +61,7 @@ const kafka = new Kafka({
 const topic = 'topic-test'
 const consumer = kafka.consumer({ groupId: 'test-group' })
 
-const run = async (ws) => {
+const run = async () => {
     await consumer.connect()
     await consumer.subscribe({ topic, fromBeginning: true })
     await consumer.run({
@@ -69,12 +71,11 @@ const run = async (ws) => {
         eachMessage: async ({ topic, partition, message }) => {
             const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
             console.log(`- ${prefix} ${message.key}#${message.value}`)
-            ws.send(message.value)
         },
     })
 }
 
-run(wss).catch(e => console.error(`[example/consumer] ${e.message}`, e))
+run().catch(e => console.error(`[example/consumer] ${e.message}`, e))
 
 const errorTypes = ['unhandledRejection', 'uncaughtException']
 const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
