@@ -1,11 +1,38 @@
 const express = require('express')
 const cors = require('cors')
 const ip = require('ip')
+import { WebSocketServer } from 'ws'
 
 const { Kafka, logLevel } = require('kafkajs')
 
-const port = 3002
+const port = 3001
+const wssPort = 3002
 const host = process.env.HOST_IP || ip.address()
+
+// WebSocket
+// TODO use IPC with Electron App
+wss = new WebSocketServer({ port: port })
+
+wss.on('connection', (ws) => {
+    console.log('websocket connected')
+
+    ws.on('message', (data) => {
+        console.log(`received ${data}`)
+    })
+    ws.send('test message sending to client')
+})
+
+wss.on('close', () => {
+    console.log('close')
+})
+
+wss.on('error', (e) => {
+    console.log(e)
+})
+
+// Handle Message
+
+
 
 /*
 const app = express()
@@ -32,7 +59,7 @@ const kafka = new Kafka({
 const topic = 'topic-test'
 const consumer = kafka.consumer({ groupId: 'test-group' })
 
-const run = async () => {
+const run = async (ws) => {
     await consumer.connect()
     await consumer.subscribe({ topic, fromBeginning: true })
     await consumer.run({
@@ -42,11 +69,12 @@ const run = async () => {
         eachMessage: async ({ topic, partition, message }) => {
             const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
             console.log(`- ${prefix} ${message.key}#${message.value}`)
+            ws.send(message.value)
         },
     })
 }
 
-run().catch(e => console.error(`[example/consumer] ${e.message}`, e))
+run(wss).catch(e => console.error(`[example/consumer] ${e.message}`, e))
 
 const errorTypes = ['unhandledRejection', 'uncaughtException']
 const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
