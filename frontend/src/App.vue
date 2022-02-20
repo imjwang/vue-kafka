@@ -1,6 +1,18 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from '@/components/HelloWorld.vue'
+import { useWebSocket } from '@vueuse/core'
+import { watch } from 'vue'
+
+const { status, data, close } = useWebSocket('ws://localhost:3002/', {
+  autoReconnect: true,
+  heartbeat: true,
+})
+
+const watching = watch(data, (newData) => {
+  console.log(`New Data is: ${newData}`)
+})
+
 </script>
 
 <template>
