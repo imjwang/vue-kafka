@@ -1,7 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const ip = require('ip')
-import { WebSocketServer } from 'ws'
+const WebSocket = require('ws')
+
 
 const { Kafka, logLevel } = require('kafkajs')
 
@@ -11,8 +12,7 @@ const host = process.env.HOST_IP || ip.address()
 
 // WebSocket
 // TODO use IPC with Electron App
-wss = new WebSocketServer({ port: port })
-
+const wss = new WebSocket.Server({ port: wssPort })
 wss.on('connection', (ws) => {
     console.log('websocket connected')
 
