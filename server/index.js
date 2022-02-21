@@ -10,18 +10,21 @@ const port = 3001
 const wssPort = 3002
 const host = process.env.HOST_IP || ip.address()
 
+const sub = {}
+
 // WebSocket
 // TODO use IPC with Electron App
 const wss = new WebSocket.Server({ port: wssPort })
 wss.on('connection', (ws) => {
     console.log('websocket connected')
+    sub['key'] = ws
 
     ws.on('message', (data) => {
         console.log(`received ${data}`)
+        //it's receiving a ping from frontend
         //ws.send(data.value)
-        ws.send(JSON.stringify(data))
+        //ws.send(JSON.stringify(data))
     })
-    ws.send('test message sending to client')
 })
 
 wss.on('close', () => {
@@ -63,14 +66,14 @@ const consumer = kafka.consumer({ groupId: 'test-group' })
 
 const run = async () => {
     await consumer.connect()
-    await consumer.subscribe({ topic, fromBeginning: true })
+    await consumer.subscribe({ topic, fromBeginning: false })
     await consumer.run({
         // eachBatch: async ({ batch }) => {
         //   console.log(batch)
         // },
         eachMessage: async ({ topic, partition, message }) => {
             const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
-            console.log(`- ${prefix} ${message.key}#${message.value}`)
+            'key' in sub ? sub['key'].send(JSON.stringify(message.key)) : console.log(`- ${prefix} ${message.key}#${message.value}`)
         },
     })
 }

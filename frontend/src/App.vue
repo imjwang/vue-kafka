@@ -3,14 +3,20 @@ import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from '@/components/HelloWorld.vue'
 import { useWebSocket } from '@vueuse/core'
 import { watch } from 'vue'
+import { defineStore } from 'pinia'
 
 const { status, data, close } = useWebSocket('ws://localhost:3002/', {
   autoReconnect: true,
   heartbeat: true,
+//  onMessage: (ws, e) => {
+//    console.log(e.data)
+//  }
 })
 
-const watching = watch(data, (newData) => {
-  console.log(`New Data is: ${newData}`)
+
+
+watch(data, (newData) => {
+    console.log(JSON.parse(newData).data)
 })
 
 </script>
