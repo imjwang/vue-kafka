@@ -7,7 +7,8 @@ import { defineStore } from 'pinia'
 
 const { status, data, close } = useWebSocket('ws://localhost:3002/', {
   autoReconnect: true,
-  heartbeat: true,
+  onConnected: ws => ws.send('frontend'),
+//  heartbeat: true,
 //  onMessage: (ws, e) => {
 //    console.log(e.data)
 //  }
