@@ -61,19 +61,24 @@ const consumer = kafka.consumer({ groupId: 'test-group' })
 
 const run = async () => {
     await consumer.connect()
-    await consumer.subscribe({ topic, fromBeginning: true })
+    await consumer.subscribe({ topic, fromBeginning: false })
     await consumer.run({
         // eachBatch: async ({ batch }) => {
         //   console.log(batch)
         // },
         eachMessage: async ({ topic, partition, message }) => {
             const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
+            const mess = {
+                'topic': topic,
+                'key': message.key.toString(),
+                'data': message.value.toString()
+            }
             // send message
             // TODO send data without verifying key exists
             const wsx = Object.values(clients)
             if (wsx.length > 0) {
                 wsx.forEach((v) => {
-                    v.send(JSON.stringify(message.key))
+                    v.send(JSON.stringify(mess))
                 })
             }
             else {

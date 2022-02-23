@@ -23,10 +23,8 @@ const sendMessage = () => {
   return producer
     .send({
       topic,
-      compression: CompressionTypes.GZIP,
-      messages: Array(getRandomNumber())
-        .fill()
-        .map(_ => createMessage(getRandomNumber())),
+      compression: CompressionTypes.None,
+      messages: [createMessage(getRandomNumber())],
     })
     .then(console.log)
     .catch(e => console.error(`[example/producer] ${e.message}`, e))
