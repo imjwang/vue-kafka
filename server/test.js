@@ -10,7 +10,7 @@ const kafka = new Kafka({
   clientId: 'example-producer',
 })
 
-const topic = 'topic-test'
+const topic = 'topic-test2'
 const producer = kafka.producer()
 
 const getRandomNumber = () => Math.round(Math.random(10) * 1000)
@@ -34,7 +34,7 @@ const sendMessage = () => {
 
 const run = async () => {
   await producer.connect()
-  setInterval(sendMessage, 3000)
+  setInterval(sendMessage, 6000)
 }
 
 run().catch(e => console.error(`[example/producer] ${e.message}`, e))

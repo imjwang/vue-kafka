@@ -56,12 +56,12 @@ const kafka = new Kafka({
     clientId: 'example-consumer',
 })
 
-const topic = 'topic-test'
+const topic = 'topic-test2'
 const consumer = kafka.consumer({ groupId: 'test-group' })
 
 const run = async () => {
     await consumer.connect()
-    await consumer.subscribe({ topic, fromBeginning: false })
+    await consumer.subscribe({ topic, fromBeginning: true })
     await consumer.run({
         // eachBatch: async ({ batch }) => {
         //   console.log(batch)
@@ -70,7 +70,15 @@ const run = async () => {
             const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
             // send message
             // TODO send data without verifying key exists
-            'key' in sub ? sub['key'].send(JSON.stringify(message.key)) : console.log(`- ${prefix} ${message.key}#${message.value}`)
+            const wsx = Object.values(clients)
+            if (wsx.length > 0) {
+                wsx.forEach((v) => {
+                    v.send(JSON.stringify(message.key))
+                })
+            }
+            else {
+                console.log(`- ${prefix} ${message.key}#${message.value}`)
+            }
         },
     })
 }
