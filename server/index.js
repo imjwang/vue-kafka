@@ -8,7 +8,7 @@ const { Kafka, logLevel } = require('kafkajs')
 
 const port = 3001
 const wssPort = 3002
-const host = process.env.HOST_IP || ip.address()
+//const host = process.env.HOST_IP || ip.address()
 
 const clients = {}
 
@@ -52,7 +52,7 @@ app.listen(port, () => {
 
 const kafka = new Kafka({
     logLevel: logLevel.INFO,
-    brokers: [`${host}:9092`],
+    brokers: [`localhost:29092`],
     clientId: 'example-consumer',
 })
 

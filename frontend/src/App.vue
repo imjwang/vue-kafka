@@ -2,7 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from '@/components/HelloWorld.vue'
 import { useWebSocket } from '@vueuse/core'
-import { watch } from 'vue'
+import { watch, ref } from 'vue'
 import { defineStore } from 'pinia'
 
 const { status, data, close } = useWebSocket('ws://localhost:3002/', {
@@ -13,12 +13,11 @@ const { status, data, close } = useWebSocket('ws://localhost:3002/', {
 //    console.log(e.data)
 //  }
 })
-
-
+const val = ref(0)
 
 watch(data, (newData) => {
   const parse = JSON.parse(newData)
-    console.log(parse.data)
+  val.value = parse.data
 })
 
 </script>
@@ -28,7 +27,7 @@ watch(data, (newData) => {
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld :msg="`Your data is: ${JSON.parse(data).data}`" />
+      <HelloWorld :msg="`Your data is: ${val}`" />
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
