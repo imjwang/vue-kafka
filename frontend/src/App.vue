@@ -1,17 +1,15 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from '@/components/HelloWorld.vue'
 import { useWebSocket } from '@vueuse/core'
-import { watch, ref } from 'vue'
+import { watch, ref, onMounted } from 'vue'
 import { defineStore } from 'pinia'
+import BarChart from '@/components/BarChart.vue'
+import * as d3 from 'd3'
 
+// Set up connection to Kafka Client
 const { status, data, close } = useWebSocket('ws://localhost:3002/', {
   autoReconnect: true,
   onConnected: ws => ws.send('frontend'),
-//  heartbeat: true,
-//  onMessage: (ws, e) => {
-//    console.log(e.data)
-//  }
 })
 const val = ref(0)
 
@@ -20,6 +18,7 @@ watch(data, (newData) => {
   val.value = parse.data
 })
 
+
 </script>
 
 <template>
@@ -27,16 +26,14 @@ watch(data, (newData) => {
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld :msg="`Your data is: ${val}`" />
-
+      <bar-chart />
+        <h1>{{val}}</h1>
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+
       </nav>
     </div>
   </header>
 
-  <RouterView />
 </template>
 
 <style>
