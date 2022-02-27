@@ -11,11 +11,11 @@ const { status, data, close } = useWebSocket('ws://localhost:3002/', {
   autoReconnect: true,
   onConnected: ws => ws.send('frontend'),
 })
-const val = ref(0)
+const val = ref([])
 
 watch(data, (newData) => {
   const parse = JSON.parse(newData)
-  val.value = parse.data
+  val.value.push(parseInt(parse.data))
 })
 
 
@@ -26,11 +26,8 @@ watch(data, (newData) => {
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <bar-chart />
-        <h1>{{val}}</h1>
-      <nav>
-
-      </nav>
+      <bar-chart :data=val />
+        <h1>{{val[val.length - 1]}}</h1>
     </div>
   </header>
 
@@ -131,5 +128,6 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
+
 }
 </style>
