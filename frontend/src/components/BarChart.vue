@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watchEffect, defineProps } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 import { debouncedWatch, useResizeObserver } from '@vueuse/core'
 import {
     select,
