@@ -18,7 +18,7 @@ const yaxis = ref(null)
 const xaxis = ref(null)
 
 const test = ref(null)
-const text = ref({width: 500, height: 500})
+const text = ref({width: 800, height: 800})
 // onmounted generate svg
 // TODO generate a D3 viz
 onMounted(() => {
