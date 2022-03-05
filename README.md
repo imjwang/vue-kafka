@@ -17,6 +17,7 @@ TODO:
  - [x] Create 2 D3 viz that syncs with test.js (Changed to Apex chart)
  - [ ] CI Lint
  - [ ] Storybook
+ - [ ] Optimize Vite (SSR, Code splitting, minify, etc.)
  - [ ] Typescript
  - [ ] Trashcan
  - [ ] Use Issues instead of TODO
