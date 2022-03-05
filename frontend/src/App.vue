@@ -1,24 +1,28 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import { useWebSocket, useTimeout, useDraggable } from '@vueuse/core'
-import { watch, ref, provide } from 'vue'
+import { useWebSocket, useDraggable } from '@vueuse/core'
+import { watch, unref, ref, computed, onMounted } from 'vue'
 import { defineStore } from 'pinia'
-import BarChart from '@/components/BarChart.vue'
 import Nav from '@/components/Nav.vue'
 import ChartCard from '@/components/ChartCard.vue'
 
-// Set up connection to Kafka Client
+// Set up connection to Kafka Client, remove status and close?
 const { status, data, close } = useWebSocket('ws://localhost:3002/', {
   autoReconnect: true,
   onConnected: ws => ws.send('frontend'),
 })
+// ref to keep history of data
 const val = ref([])
 
-// TODO move this to BarChart and inject provide
-const test = ref([{
-  name: 'test',
-  data: val.value
-}])
+watch(data, (newData) => {
+  const parse = JSON.parse(newData)
+  val.value.push(parseInt(parse.data))
+})
+
+// Compute series data
+const series = computed(() => {
+  return [{ name: 'test', data: val.value}]
+})
 
 const chartOptions = {
             chart: {
@@ -36,7 +40,10 @@ const chartOptions = {
             },
             title: {
               text: 'My Graph',
-              align: 'left'
+              align: 'left',
+              style: {
+                color: ''
+              }
             },
             grid: {
               row: {
@@ -49,25 +56,27 @@ const chartOptions = {
             }
           }
 
-watch(data, (newData) => {
-  const parse = JSON.parse(newData)
-  val.value.push(parseInt(parse.data))
+const testeroni = ref(null)
+
+// TODO turn this into composable?
+onMounted(() => {
+  // get color from element
+  const test = window.getComputedStyle(unref(testeroni)).backgroundColor
+  // format 
+  const format = (rgb) => rgb.split(", ").map((s) => s.replace(/[^\d.-]/g, '')).map((s) => +s).map((s) => s.toString(16)).join('')
+  console.log(`#${format(test)}`)
 })
-
-//provide kafka data
-provide('data', val)
-
-const retest = ref(null)
 
 </script>
 
 <template>
 <div class="w-screen h-screen">
+  <div ref="testeroni" class="bg-orange-400"></div>
   <Nav />
   <h1 class="text-4xl">Data Testing</h1>
   <p>{{val[val.length-1] || 'No Data Received Yet.'}}</p>
     <ChartCard>
-      <apexchart ref="retest" width="100%" height="100%" :options=chartOptions type="line" :series="test"></apexchart>
+      <apexchart ref="retest" width="100%" height="100%" :options=chartOptions type="line" :series="series"></apexchart>
     </ChartCard>
 </div>
 </template>

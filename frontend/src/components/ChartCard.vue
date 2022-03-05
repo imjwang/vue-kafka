@@ -19,7 +19,7 @@ const { x, y, style } = useDraggable(drag, {
 
  <template>
       <div ref="drag" :style="style" style="position: fixed" class="hover:shadow-md hover:shadow-info resize card border-2
-       border-info w-min h-min text-info-content my-4 mx-4 py-2 px-2">
+       border-info w-100 h-100 text-info-content my-4 mx-4 py-2 px-2">
         <slot></slot>
       </div>  
  </template>
