@@ -1,19 +1,22 @@
 <script setup>
-import { ref, inject } from 'vue'
+import { ref, inject } from "vue";
 
 defineProps({
-    items: Array
-})
+  items: Array,
+});
 
 // TODO inject current tab from home page
 // /const current = inject('tab')
-
 </script>
 
 <template>
-<div class="tabs">
-    <a class="text-accent-content tab tab-lg tab-lifted hover:bg-accent" v-for="i in items" :key="i.name">
-        {{ i.name }}
+  <div class="tabs">
+    <a
+      v-for="i in items"
+      :key="i.name"
+      class="text-accent-content tab tab-lg tab-lifted hover:bg-accent"
+    >
+      {{ i.name }}
     </a>
-</div>
+  </div>
 </template>
