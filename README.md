@@ -16,6 +16,7 @@ TODO:
  - [ ] Create plus button to lazy loading a viz
  - [x] Create 2 D3 viz that syncs with test.js (Changed to Apex chart)
  - [ ] CI Lint
+ - [ ] Let ui decide kafka topic and broker through composable
  - [ ] Storybook
  - [ ] Optimize Vite (SSR, Code splitting, minify, etc.)
  - [ ] Typescript
