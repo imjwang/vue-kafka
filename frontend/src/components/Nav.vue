@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import Tabs from "@/components/Tabs.vue";
+import ColorSwitch from "@/components/ColorSwitch.vue";
 
 //time
 const timer = ref(57);
@@ -41,6 +42,7 @@ const testing123 = ref([
         height="30"
       />
       <p class="ml-2 text-4xl">Vue-Kafka</p>
+      <ColorSwitch />
     </div>
     <div class="navbar-center">
       <Tabs :items="testing123" />

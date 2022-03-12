@@ -5,6 +5,7 @@ import { watch, unref, ref, computed, onMounted } from "vue";
 import { defineStore } from "pinia";
 import Nav from "@/components/Nav.vue";
 import ChartCard from "@/components/ChartCard.vue";
+import ColorSwitch from "@/components/ColorSwitch.vue";
 
 // Set up connection to Kafka Client, remove status and close?
 const { status, data, close } = useWebSocket("ws://localhost:3002/", {
