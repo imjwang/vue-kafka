@@ -5,8 +5,7 @@ defineProps({
   items: Array,
 });
 
-// TODO inject current tab from home page
-// /const current = inject('tab')
+const currentTab = ref("");
 </script>
 
 <template>
@@ -14,7 +13,12 @@ defineProps({
     <a
       v-for="i in items"
       :key="i.name"
-      class="text-accent-content tab tab-lg tab-lifted hover:bg-accent"
+      class="text-primary-content bg-primary tab tab-bordered hover:bg-accent"
+      @click="currentTab = i.name"
+      :class="{
+        'tab-active': currentTab === i.name,
+        'bg-accent': currentTab === i.name,
+      }"
     >
       {{ i.name }}
     </a>

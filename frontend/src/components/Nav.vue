@@ -22,13 +22,6 @@ watch(timer, (tick) => {
 watch(timer2, (tick) => {
   test2.value = formatTimer(tick);
 });
-
-const testing123 = ref([
-  { name: "test" },
-  { name: "test2" },
-  { name: "more test" },
-  { name: "tab" },
-]);
 </script>
 
 <template>
@@ -43,9 +36,6 @@ const testing123 = ref([
       />
       <p class="ml-2 text-4xl">Vue-Kafka</p>
       <ColorSwitch />
-    </div>
-    <div class="navbar-center">
-      <Tabs :items="testing123" />
     </div>
     <div class="navbar-end">
       <span class="font-mono text-2xl countdown">

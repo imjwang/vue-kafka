@@ -4,6 +4,7 @@ import { useWebSocket, useDraggable } from "@vueuse/core";
 import { watch, unref, ref, computed, onMounted } from "vue";
 import { defineStore } from "pinia";
 import Nav from "@/components/Nav.vue";
+import Tabs from "@/components/Tabs.vue";
 import ChartCard from "@/components/ChartCard.vue";
 import ColorSwitch from "@/components/ColorSwitch.vue";
 
@@ -72,12 +73,20 @@ onMounted(() => {
       .join("");
   console.log(`#${format(test)}`);
 });
+
+const tabs = ref([
+  { name: "test" },
+  { name: "test2" },
+  { name: "more test" },
+  { name: "tab" },
+]);
 </script>
 
 <template>
   <div class="w-screen h-screen">
     <div ref="testeroni" class="bg-orange-400"></div>
     <Nav />
+    <Tabs :items="tabs" />
     <h1 class="text-4xl">Data Testing</h1>
     <p>{{ val[val.length - 1] || "No Data Received Yet." }}</p>
     <ChartCard>
