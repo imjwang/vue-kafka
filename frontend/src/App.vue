@@ -7,6 +7,9 @@ import Nav from "@/components/Nav.vue";
 import Tabs from "@/components/Tabs.vue";
 import ChartCard from "@/components/ChartCard.vue";
 import ColorSwitch from "@/components/ColorSwitch.vue";
+import RedCard from "@/components/test/RedCard.vue";
+import BlueCard from "@/components/test/BlueCard.vue";
+import GreenCard from "@/components/test/GreenCard.vue";
 
 // Set up connection to Kafka Client, remove status and close?
 const { status, data, close } = useWebSocket("ws://localhost:3002/", {
@@ -80,6 +83,7 @@ const tabs = ref([
   { name: "more test" },
   { name: "tab" },
 ]);
+
 </script>
 
 <template>
@@ -87,17 +91,14 @@ const tabs = ref([
     <div ref="testeroni" class="bg-orange-400"></div>
     <Nav />
     <Tabs :items="tabs" />
-    <h1 class="text-4xl">Data Testing</h1>
+  <div class="py-4 px-4">
+          <h1 class="text-4xl">Data Testing</h1>
     <p>{{ val[val.length - 1] || "No Data Received Yet." }}</p>
-    <ChartCard>
-      <apexchart
-        ref="retest"
-        width="100%"
-        height="100%"
-        :options="chartOptions"
-        type="line"
-        :series="series"
-      ></apexchart>
-    </ChartCard>
+    <div class="flex flex-row gap-x-8">
+      <RedCard />
+<BlueCard />
+<GreenCard />
+</div>
+  </div>
   </div>
 </template>
