@@ -1,26 +1,28 @@
 <script setup>
-import { ref, inject } from "vue";
+import { ref } from "vue";
+import { useTabStore } from "@/stores/tabs";
 
 defineProps({
-  items: Array,
+  tabs: Object,
 });
 
-const currentTab = ref("");
+const store = useTabStore();
 </script>
 
 <template>
   <div class="tabs">
     <a
-      v-for="i in items"
-      :key="i.name"
+      v-for="(_, tab) in tabs"
+      :key="tab"
       class="text-primary-content bg-primary tab tab-bordered hover:bg-accent"
-      @click="currentTab = i.name"
+      @click="store.currentTab = tab"
       :class="{
-        'tab-active': currentTab === i.name,
-        'bg-accent': currentTab === i.name,
+        'tab-active': store.currentTab === tab,
+        'bg-accent': store.currentTab === tab,
       }"
     >
-      {{ i.name }}
+      {{ tab }}
     </a>
   </div>
+  <component :is="tabs[store.currentTab]"></component>
 </template>

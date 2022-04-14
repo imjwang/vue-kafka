@@ -77,28 +77,22 @@ onMounted(() => {
   console.log(`#${format(test)}`);
 });
 
-const tabs = ref([
-  { name: "test" },
-  { name: "test2" },
-  { name: "more test" },
-  { name: "tab" },
-]);
-
+const tabs = {
+  RedCard,
+  BlueCard,
+  GreenCard,
+};
 </script>
 
 <template>
   <div class="w-screen h-screen">
     <div ref="testeroni" class="bg-orange-400"></div>
     <Nav />
-    <Tabs :items="tabs" />
-  <div class="py-4 px-4">
-          <h1 class="text-4xl">Data Testing</h1>
-    <p>{{ val[val.length - 1] || "No Data Received Yet." }}</p>
-    <div class="flex flex-row gap-x-8">
-      <RedCard />
-<BlueCard />
-<GreenCard />
-</div>
-  </div>
+    <Tabs :tabs="tabs" />
+    <div class="py-4 px-4">
+      <h1 class="text-4xl">Data Testing</h1>
+      <p>{{ val[val.length - 1] || "No Data Received Yet." }}</p>
+      <div class="flex flex-row gap-x-8"></div>
+    </div>
   </div>
 </template>
